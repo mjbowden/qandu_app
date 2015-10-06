@@ -17,6 +17,9 @@ class QuestionCreateView(CreateView):
   success_url = reverse_lazy('question_list')
 
   def form_valid(self, form):
+    question = Question.objects.get(id=self.kwargs['pk'])
+    if Answer.objects.filter(question=question, user=self.request.user).exists():
+       raise PermissionDenied()
     form.instance.user = self.request.user
     return super(QuestionCreateView, self).form_valid(form)
 class QuestionListView(ListView):
@@ -30,6 +33,8 @@ class QuestionDetailView(DetailView):
         question = Question.objects.get(id=self.kwargs['pk'])
         answers = Answer.objects.filter(question=question)
         context['answers'] = answers
+        user_answer = Answer.objects.filter(question, user=self.request.user)
+        context['user_answers'] = user_answers
         return context
 class QuestionUpdateView(UpdateView):
       model = Question
