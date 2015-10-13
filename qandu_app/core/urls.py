@@ -5,8 +5,8 @@ from .views import *
 urlpatterns = patterns('',
     url(r'^$', Home.as_view(), name='home'),
     url(r'^user/', include('registration.backends.simple.urls')),
-    url(r'^user/', include('django.contrib.auth.urls')), 
-    url(r'^question/create/$', login_required(QuestionCreateView.as_view()), name='question_create'),  
+    url(r'^user/', include('django.contrib.auth.urls')),
+    url(r'^question/create/$', login_required(QuestionCreateView.as_view()), name='question_create'),
     url(r'^question/$', login_required(QuestionListView.as_view()), name='question_list'),
     url(r'^question/(?P<pk>\d+)/$', login_required(QuestionDetailView.as_view()), name='question_detail'),
     url(r'^question/update/(?P<pk>\d+)/$', login_required(QuestionUpdateView.as_view()), name='question_update'),
@@ -17,4 +17,5 @@ urlpatterns = patterns('',
     url(r'^vote/$', login_required(VoteFormView.as_view()), name='vote'),
     url(r'^user/(?P<slug>\w+)/$', login_required(UserDetailView.as_view()), name='user_detail'),
     url(r'^user/update/(?P<slug>\w+)/$', login_required(UserUpdateView.as_view()), name='user_update'),
- )                      
+    url(r'^user/delete/(?P<slug>\w+)/$', login_required(UserDeleteView.as_view()), name='user_delete'),
+ )
